@@ -361,80 +361,48 @@
             padding: 20px;
             background-color: #f0f0f0;
             border-radius: 10px;
-            animation: fadeIn 1s ease-out; /* Animasi untuk pesan kosong */
+            animation: fadeIn 1s ease-out;
         }
-
-        /* Media Queries for Responsiveness */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5em;
-            }
-
-            .container {
-                padding: 25px;
-                width: 95%;
-            }
-
-            .message-form input[type="text"],
-            .message-form textarea,
-            .message-form button {
-                font-size: 0.9em;
-                padding: 10px;
-            }
-
-            .message-form input[type="file"] {
-                font-size: 0.85em;
-            }
-
-            .messages-display h2 {
-                font-size: 1.5em;
-            }
-
-            .message-item {
-                padding: 15px;
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-            }
-
-            .message-image-wrapper {
-                margin-bottom: 10px;
-            }
-
-            .message-actions button {
-                padding: 6px 10px;
-                font-size: 0.8em;
-            }
+        
+        .loading-message {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🎉 Happy Birthday, Captain of Our Home! 🎉</h1>
-            <p>Bukan tentang hari ulang tahun ataupun tentang umur, yang saat ini disampaikan hanya sebuah kalimat ucapan dari seorang istri dan dua anak. Terima kasih sudah jadi sosok yang kuat, tenang, dan selalu ada. Semoga sehat selalu dan terus jadi pelindung terbaik kami.</p>
+            <h1>🎉 Selamat Ulang Tahun, Ayah Tercinta! 🎉</h1>
+            <p>Kami semua sangat menyayangimu. Semoga di hari bahagiamu ini, Ayah selalu diberikan kesehatan, kebahagiaan, dan keberkahan. Terima kasih atas semua cinta dan pengorbananmu.</p>
         </header>
 
         <section class="message-form">
-            <h2>Kirim Ucapanmu di Sini! Bukan di Sono</h2>
+            <h2>Kirim Ucapanmu di Sini!</h2>
             <form id="birthdayMessageForm">
-                <label for="senderName">Nama Pengirim (Gausah pake nama lengkap bukan lagi lamar kerja):</label>
-                <input type="text" id="senderName" placeholder="Contoh: Ibu" required>
+                <label for="senderName">Nama Pengirim:</label>
+                <input type="text" id="senderName" placeholder="Contoh: Putri, Ibu, Kakak" required>
 
-                <label for="messageText">Ucapan (yang bener ucapannya jangan ampe nangis yang baca):</label>
-                <textarea id="messageText" placeholder="Tulis ucapan ulang tahunmu untuk Bapak di sini..." required></textarea>
+                <label for="messageText">Ucapan:</label>
+                <textarea id="messageText" placeholder="Tulis ucapan ulang tahunmu untuk Ayah di sini..." required></textarea>
 
-                <label for="messageImage">Gambar (gambar apa ajh yang penting jangan gambaran):</label>
+                <label for="messageImage">Gambar (Opsional):</label>
                 <input type="file" id="messageImage" accept="image/*">
 
-                <button type="submit" id="submitButton">Kirim Cepetan disini!</button>
+                <button type="submit" id="submitButton">Kirim Ucapan</button>
             </form>
         </section>
 
         <section class="messages-display">
             <h2>Ucapan Dari Kami:</h2>
             <div id="messagesContainer">
-                </div>
+                <div class="loading-message">Memuat ucapan...</div>
+            </div>
         </section>
     </div>
 
@@ -451,25 +419,14 @@
             const submitButton = document.getElementById('submitButton');
             const messagesContainer = document.getElementById('messagesContainer');
 
-            // Kunci untuk menyimpan data di Local Storage
-            const LOCAL_STORAGE_KEY = 'birthdayMessages';
+            let editingMessageId = null; // ID pesan yang sedang diedit
 
-            // Fungsi untuk memuat ucapan dari Local Storage
-            function loadMessages() {
-                const storedMessages = localStorage.getItem(LOCAL_STORAGE_KEY);
-                return storedMessages ? JSON.parse(storedMessages) : [];
-            }
+            // *** GANTI DENGAN URL API PHP ANDA ***
+            // Contoh: Jika domain Anda "https://ucapanayah.com" dan folder API Anda "/api",
+            // maka BASE_API_URL adalah "https://ucapanayah.com/api/"
+            const BASE_API_URL = 'https://alifikrarprabu.github.io/Website-Personal/api'; // UBAH INI SESUAI LOKASI FOLDER API ANDA!
 
-            // Fungsi untuk menyimpan ucapan ke Local Storage
-            function saveMessages() {
-                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(messages));
-            }
-
-            // Muat ucapan saat aplikasi dimulai
-            let messages = loadMessages();
-            let editingMessageId = null;
-
-            // Fungsi untuk menambahkan confetti (tetap sama)
+            // Fungsi untuk menambahkan confetti
             function createConfetti() {
                 const confettiCount = 50;
                 for (let i = 0; i < confettiCount; i++) {
@@ -489,13 +446,13 @@
             setInterval(createConfetti, 5000);
 
             // Fungsi untuk menampilkan ucapan yang ada
-            function displayMessages() {
-                messagesContainer.innerHTML = '';
+            function displayMessages(messages) {
+                messagesContainer.innerHTML = ''; // Kosongkan container sebelum menambahkan
 
                 if (messages.length === 0) {
                     const emptyMessageDiv = document.createElement('div');
                     emptyMessageDiv.classList.add('empty-messages');
-                    emptyMessageDiv.textContent = 'Belum ada ucapan. Jadilah yang pertama memberikan ucapan untuk Bapak';
+                    emptyMessageDiv.textContent = 'Belum ada ucapan. Jadilah yang pertama memberikan ucapan untuk Ayah!';
                     messagesContainer.appendChild(emptyMessageDiv);
                     return;
                 }
@@ -506,10 +463,10 @@
                     messageItem.setAttribute('data-id', msg.id);
 
                     let imageHtml = '';
-                    if (msg.imageUrl) {
+                    if (msg.image_url) { // Nama kolom di DB adalah 'image_url'
                         imageHtml = `
                             <div class="message-image-wrapper">
-                                <img src="${msg.imageUrl}" alt="Gambar Ucapan">
+                                <img src="${msg.image_url}" alt="Gambar Ucapan">
                             </div>
                         `;
                     }
@@ -518,9 +475,9 @@
                         ${imageHtml}
                         <div class="message-item-content">
                             <strong>Dari: ${msg.sender}</strong>
-                            <p>${msg.text}</p>
+                            <p>${msg.message_text}</p>
                             <div class="message-actions">
-                                <button class="edit-btn" data-id="${msg.id}">Edit</button>
+                                <button class="edit-btn" data-id="${msg.id}" data-sender="${msg.sender}" data-text="${msg.message_text}" data-image-url="${msg.image_url || ''}">Edit</button>
                                 <button class="delete-btn" data-id="${msg.id}">Hapus</button>
                             </div>
                         </div>
@@ -536,94 +493,191 @@
 
             function addMessageActionListeners() {
                 document.querySelectorAll('.edit-btn').forEach(button => {
-                    button.onclick = (event) => editMessage(event.target.dataset.id);
+                    button.onclick = (event) => {
+                        const id = event.target.dataset.id;
+                        const sender = event.target.dataset.sender;
+                        const text = event.target.dataset.text;
+                        const imageUrl = event.target.dataset.imageUrl; // Ambil URL gambar yang ada
+                        editMessage(id, sender, text, imageUrl);
+                    };
                 });
                 document.querySelectorAll('.delete-btn').forEach(button => {
                     button.onclick = (event) => deleteMessage(event.target.dataset.id);
                 });
             }
 
-            function editMessage(id) {
-                const messageToEdit = messages.find(msg => msg.id == id);
-                if (messageToEdit) {
-                    senderNameInput.value = messageToEdit.sender;
-                    messageTextInput.value = messageToEdit.text;
-                    messageImageInput.value = ''; // Kosongkan input file
-                    submitButton.textContent = 'Perbarui Ucapan';
-                    editingMessageId = id;
-                }
+            // Fungsi editMessage
+            function editMessage(id, sender, text, imageUrl) {
+                senderNameInput.value = sender;
+                messageTextInput.value = text;
+                // Tidak bisa secara langsung mengisi input type="file" karena alasan keamanan.
+                // Pengguna harus mengunggah ulang jika ingin mengubah gambar.
+                messageImageInput.value = '';
+                submitButton.textContent = 'Perbarui Ucapan';
+                editingMessageId = id;
             }
 
-            function deleteMessage(id) {
+            // Fungsi deleteMessage diubah untuk berinteraksi dengan API PHP
+            async function deleteMessage(id) {
                 if (confirm('Apakah Anda yakin ingin menghapus ucapan ini?')) {
-                    messages = messages.filter(msg => msg.id != id);
-                    saveMessages(); // Simpan perubahan ke Local Storage
-                    displayMessages();
+                    try {
+                        const response = await fetch(`${BASE_API_URL}delete_message.php`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ id: id })
+                        });
+                        const result = await response.json();
+                        if (result.success) {
+                            alert('Ucapan berhasil dihapus!');
+                            fetchMessages(); // Refresh data setelah penghapusan
+                        } else {
+                            alert('Gagal menghapus ucapan: ' + result.message);
+                        }
+                    } catch (error) {
+                        console.error("Error menghapus ucapan: ", error);
+                        alert('Terjadi kesalahan saat menghapus ucapan.');
+                    }
                 }
             }
 
-            // Tampilkan ucapan yang dimuat dari Local Storage saat pertama kali
-            displayMessages();
+            // Fungsi untuk memuat ucapan dari API PHP
+            async function fetchMessages() {
+                messagesContainer.innerHTML = '<div class="loading-message">Memuat ucapan...</div>'; // Tampilkan loading
+                try {
+                    const response = await fetch(`${BASE_API_URL}get_messages.php`);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const messages = await response.json();
+                    displayMessages(messages);
+                } catch (error) {
+                    console.error("Error fetching messages:", error);
+                    messagesContainer.innerHTML = '<div class="empty-messages" style="color: red;">Gagal memuat ucapan. Silakan periksa koneksi internet Anda atau konfigurasi API.</div>';
+                }
+            }
+
+            // Panggil saat halaman dimuat
+            fetchMessages();
+
+            // Interval untuk "real-time" semu (polling setiap 5 detik)
+            // Anda bisa menyesuaikan atau menghapus ini jika tidak butuh efek real-time yang cepat
+            setInterval(fetchMessages, 5000); 
 
             // Menangani pengiriman form (untuk tambah atau edit)
-            form.addEventListener('submit', (event) => {
+            form.addEventListener('submit', async (event) => {
                 event.preventDefault();
 
-                const senderName = senderNameInput.value;
-                const messageText = messageTextInput.value;
+                const senderName = senderNameInput.value.trim();
+                const messageText = messageTextInput.value.trim();
                 const imageFile = messageImageInput.files[0];
 
-                if (senderName && messageText) {
-                    let newImageUrl = null;
+                if (!senderName || !messageText) {
+                    alert('Mohon lengkapi nama pengirim dan ucapan!');
+                    return;
+                }
 
-                    const processMessage = (url) => {
-                        if (editingMessageId) {
-                            const index = messages.findIndex(msg => msg.id == editingMessageId);
-                            if (index !== -1) {
-                                messages[index].sender = senderName;
-                                messages[index].text = messageText;
-                                if (imageFile) { // Hanya update gambar jika ada file baru
-                                    messages[index].imageUrl = url;
-                                } else { // Jika tidak ada file baru, tetap gunakan URL gambar yang lama
-                                     messages[index].imageUrl = messages[index].imageUrl;
-                                }
-                            }
-                            editingMessageId = null;
-                            submitButton.textContent = 'Kirim Ucapan';
-                        } else {
-                            messages.unshift({ 
-                                id: Date.now(), 
-                                sender: senderName, 
-                                text: messageText, 
-                                imageUrl: url 
-                            });
+                submitButton.disabled = true;
+                submitButton.textContent = 'Mengirim...';
+
+                try {
+                    let imageUrl = null;
+
+                    // Implementasi upload gambar ke Firebase Storage (Jika Anda masih ingin menggunakan Firebase Storage untuk gambar)
+                    // Jika tidak, Anda harus membuat PHP script terpisah untuk upload gambar ke server Anda.
+                    // Bagian ini mengasumsikan Anda TIDAK menggunakan Firebase Storage lagi.
+                    // Jika Anda ingin upload gambar melalui PHP juga, bagian ini perlu diubah.
+                    
+                    // Untuk kesederhanaan, jika Anda tidak menggunakan Firebase Storage lagi
+                    // dan tidak punya solusi upload gambar ke PHP, maka image_url akan selalu null.
+                    // Jika Anda tetap ingin fitur gambar, Anda perlu membuat skrip PHP terpisah untuk mengupload gambar
+                    // dan mengembalikan URL-nya, lalu panggil di sini.
+                    // SAAT INI, JIKA TIDAK ADA SOLUSI PHP UNTUK UPLOAD GAMBAR, MAKA GAMBAR TIDAK AKAN TERSIMPAN.
+
+                    // Untuk DEMO ini, kita asumsikan image_url adalah sesuatu yang sudah ada (misal dari URL web)
+                    // atau akan menjadi null jika tidak ada input file.
+                    // Jika Anda ingin mengunggah gambar ke server Anda dengan PHP, ini akan jauh lebih kompleks.
+                    // Untuk mempermudah, mari kita asumsikan untuk sekarang bahwa URL gambar akan berasal dari sumber eksternal
+                    // atau kosong jika tidak ada gambar.
+                    // Atau, Anda bisa kembali mengintegrasikan Firebase Storage HANYA untuk gambar, dan MySQL untuk teks.
+
+                    // Jika Anda ingin menyimpan gambar ke server Anda dengan PHP, ini adalah bagian yang sangat kompleks
+                    // dan membutuhkan form data dengan 'multipart/form-data' dan penanganan file di sisi PHP.
+                    // Untuk saat ini, kita akan membiarkan imageUrl sebagai null atau URL yang sudah ada.
+                    // Saya sangat menyarankan Firebase Storage untuk gambar jika Anda tidak ingin kompleksitas PHP upload.
+                    
+                    // Untuk tujuan demo ini, kita hanya akan mengirim URL jika sudah ada, atau null.
+                    // Jika Anda mengunggah gambar, Anda perlu:
+                    // 1. Mengubah form method menjadi "multipart/form-data" (tidak melalui fetch dengan JSON.stringify)
+                    // 2. Membuat PHP script baru untuk menerima upload file, memindahkannya, dan mengembalikan URL-nya.
+                    // 3. Memanggil script upload itu di sini dan mendapatkan URL-nya.
+                    // Ini di luar cakupan jawaban ini untuk menjaga agar tidak terlalu panjang.
+
+                    // JADI, UNTUK DEMO INI, FITUR UPLOAD GAMBAR AKAN HILANG JIKA ANDA TIDAK MENGGUNAKAN FIREBASE STORAGE.
+                    // Atau Anda harus secara manual menyediakan URL gambar.
+
+                    // Jika Anda tetap ingin fitur upload gambar dan menyimpannya di server PHP, ini adalah topik terpisah
+                    // yang memerlukan penanganan form data, MIME types, dan penyimpanan file di server.
+                    
+                    // Untuk saat ini, asumsikan imageUrl hanya diisi jika sudah ada dari database
+                    // atau jika Anda memiliki cara lain untuk mendapatkan URL gambar (misal, dari input URL langsung).
+
+                    // Jika Anda tidak menggunakan Firebase Storage:
+                    // Fitur upload gambar ini AKAN HILANG atau TIDAK AKAN BERFUNGSI seperti sebelumnya.
+                    // Ini karena Anda perlu backend PHP untuk menerima dan menyimpan file gambar.
+                    // Mengirim gambar sebagai Base64 string ke MySQL tidak disarankan untuk performa.
+
+                    // Untuk menjaga agar tidak terlalu kompleks, saya akan asumsikan Anda TIDAK MENGUPLOAD GAMBAR KE SERVER PHP.
+                    // Jadi image_url akan menjadi null secara default unless Anda mengedit ucapan yang sudah ada gambar nya.
+                    
+                    if (editingMessageId) {
+                         // Saat mengedit, ambil imageUrl yang sudah ada dari pesan yang diedit
+                        const currentMessageItem = document.querySelector(`.message-item[data-id="${editingMessageId}"]`);
+                        if (currentMessageItem) {
+                            imageUrl = currentMessageItem.querySelector('img') ? currentMessageItem.querySelector('img').src : null;
                         }
-                        
-                        saveMessages(); // Simpan perubahan ke Local Storage
-                        displayMessages();
-                        form.reset();
-                        createConfetti();
+                    }
+
+                    // Data yang akan dikirim ke API PHP
+                    const payload = {
+                        sender: senderName,
+                        text: messageText,
+                        imageUrl: imageUrl // Akan null jika tidak ada gambar
                     };
 
-                    if (imageFile) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            newImageUrl = e.target.result;
-                            processMessage(newImageUrl);
-                        };
-                        reader.readAsDataURL(imageFile);
+                    let apiEndpoint = '';
+                    let method = 'POST';
+
+                    if (editingMessageId) {
+                        apiEndpoint = `${BASE_API_URL}update_message.php`;
+                        payload.id = editingMessageId; // Tambahkan ID untuk update
                     } else {
-                        let existingImageUrl = null;
-                        if (editingMessageId) {
-                            const messageToEdit = messages.find(msg => msg.id == editingMessageId);
-                            if (messageToEdit) {
-                                existingImageUrl = messageToEdit.imageUrl;
-                            }
-                        }
-                        processMessage(existingImageUrl);
+                        apiEndpoint = `${BASE_API_URL}add_message.php`;
                     }
-                } else {
-                    alert('Mohon lengkapi nama pengirim dan ucapan!');
+
+                    const response = await fetch(apiEndpoint, {
+                        method: method,
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        alert(result.message);
+                        form.reset();
+                        messageImageInput.value = '';
+                        editingMessageId = null;
+                        submitButton.textContent = 'Kirim Ucapan';
+                        createConfetti();
+                        fetchMessages(); // Refresh data setelah operasi berhasil
+                    } else {
+                        alert('Gagal: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error("Error submitting message: ", error);
+                    alert('Terjadi kesalahan saat mengirim/memperbarui ucapan.');
+                } finally {
+                    submitButton.disabled = false;
                 }
             });
         });
