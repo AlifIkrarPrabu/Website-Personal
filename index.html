@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday</title>
+    <title>Selamat Ulang Tahun, Ayah!</title>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -361,6 +361,7 @@
             padding: 20px;
             background-color: #f0f0f0;
             border-radius: 10px;
+            animation: fadeIn 1s ease-out; /* Animasi untuk pesan kosong */
         }
 
         /* Media Queries for Responsiveness */
@@ -410,23 +411,23 @@
 <body>
     <div class="container">
         <header>
-            <h1>🎉 Happy Birthday, Captain of Our Home ! 🎉</h1>
+            <h1>🎉 Happy Birthday, Captain of Our Home! 🎉</h1>
             <p>Bukan tentang hari ulang tahun ataupun tentang umur, yang saat ini disampaikan hanya sebuah kalimat ucapan dari seorang istri dan dua anak. Terima kasih sudah jadi sosok yang kuat, tenang, dan selalu ada. Semoga sehat selalu dan terus jadi pelindung terbaik kami.</p>
         </header>
 
         <section class="message-form">
-            <h2>Kirim Ucapanmu di Sini!</h2>
+            <h2>Kirim Ucapanmu di Sini! Bukan di Sono</h2>
             <form id="birthdayMessageForm">
-                <label for="senderName">Nama Pengirim:</label>
-                <input type="text" id="senderName" placeholder="Contoh: Putri, Ibu, Kakak" required>
+                <label for="senderName">Nama Pengirim (Gausah pake nama lengkap bukan lagi lamar kerja):</label>
+                <input type="text" id="senderName" placeholder="Contoh: Ibu" required>
 
-                <label for="messageText">Ucapan:</label>
-                <textarea id="messageText" placeholder="Tulis ucapan ulang tahunmu untuk Ayah di sini..." required></textarea>
+                <label for="messageText">Ucapan (yang bener ucapannya jangan ampe nangis yang baca):</label>
+                <textarea id="messageText" placeholder="Tulis ucapan ulang tahunmu untuk Bapak di sini..." required></textarea>
 
-                <label for="messageImage">Gambar (Opsional):</label>
+                <label for="messageImage">Gambar (gambar apa ajh yang penting jangan gambaran):</label>
                 <input type="file" id="messageImage" accept="image/*">
 
-                <button type="submit" id="submitButton">Kirim Ucapan</button>
+                <button type="submit" id="submitButton">Kirim Cepetan disini!</button>
             </form>
         </section>
 
@@ -450,8 +451,22 @@
             const submitButton = document.getElementById('submitButton');
             const messagesContainer = document.getElementById('messagesContainer');
 
-            // Array untuk menyimpan ucapan, dimulai kosong
-            let messages = [];
+            // Kunci untuk menyimpan data di Local Storage
+            const LOCAL_STORAGE_KEY = 'birthdayMessages';
+
+            // Fungsi untuk memuat ucapan dari Local Storage
+            function loadMessages() {
+                const storedMessages = localStorage.getItem(LOCAL_STORAGE_KEY);
+                return storedMessages ? JSON.parse(storedMessages) : [];
+            }
+
+            // Fungsi untuk menyimpan ucapan ke Local Storage
+            function saveMessages() {
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(messages));
+            }
+
+            // Muat ucapan saat aplikasi dimulai
+            let messages = loadMessages();
             let editingMessageId = null;
 
             // Fungsi untuk menambahkan confetti (tetap sama)
@@ -475,15 +490,14 @@
 
             // Fungsi untuk menampilkan ucapan yang ada
             function displayMessages() {
-                messagesContainer.innerHTML = ''; // Kosongkan container sebelum menambahkan
+                messagesContainer.innerHTML = '';
 
                 if (messages.length === 0) {
-                    // Jika tidak ada ucapan, tampilkan pesan kosong
                     const emptyMessageDiv = document.createElement('div');
                     emptyMessageDiv.classList.add('empty-messages');
-                    emptyMessageDiv.textContent = 'Belum ada ucapan. Jadilah yang pertama memberikan ucapan untuk Ayah!';
+                    emptyMessageDiv.textContent = 'Belum ada ucapan. Jadilah yang pertama memberikan ucapan untuk Bapak';
                     messagesContainer.appendChild(emptyMessageDiv);
-                    return; // Hentikan fungsi karena tidak ada ucapan untuk ditampilkan
+                    return;
                 }
 
                 messages.forEach((msg, index) => {
@@ -543,11 +557,12 @@
             function deleteMessage(id) {
                 if (confirm('Apakah Anda yakin ingin menghapus ucapan ini?')) {
                     messages = messages.filter(msg => msg.id != id);
-                    displayMessages(); // Perbarui tampilan setelah penghapusan
+                    saveMessages(); // Simpan perubahan ke Local Storage
+                    displayMessages();
                 }
             }
 
-            // Panggil displayMessages() tanpa ucapan default
+            // Tampilkan ucapan yang dimuat dari Local Storage saat pertama kali
             displayMessages();
 
             // Menangani pengiriman form (untuk tambah atau edit)
@@ -569,6 +584,8 @@
                                 messages[index].text = messageText;
                                 if (imageFile) { // Hanya update gambar jika ada file baru
                                     messages[index].imageUrl = url;
+                                } else { // Jika tidak ada file baru, tetap gunakan URL gambar yang lama
+                                     messages[index].imageUrl = messages[index].imageUrl;
                                 }
                             }
                             editingMessageId = null;
@@ -582,6 +599,7 @@
                             });
                         }
                         
+                        saveMessages(); // Simpan perubahan ke Local Storage
                         displayMessages();
                         form.reset();
                         createConfetti();
@@ -595,7 +613,6 @@
                         };
                         reader.readAsDataURL(imageFile);
                     } else {
-                        // Jika tidak ada gambar baru, gunakan gambar yang sudah ada (jika edit) atau null (jika tambah baru)
                         let existingImageUrl = null;
                         if (editingMessageId) {
                             const messageToEdit = messages.find(msg => msg.id == editingMessageId);
