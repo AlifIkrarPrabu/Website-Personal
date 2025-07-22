@@ -7,7 +7,7 @@ header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT"); // Izinkan metod
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 // Konfigurasi Database
-define('DB_SERVER', 'localhost'); // Biasanya 'localhost'
+define('DB_SERVER', 'mysql'); // Biasanya 'localhost'
 define('DB_USERNAME', 'root'); // GANTI DENGAN USERNAME DATABASE ANDA
 define('DB_PASSWORD', ''); // GANTI DENGAN PASSWORD DATABASE ANDA
 define('DB_NAME', 'ayah_birthday_messages'); // GANTI DENGAN NAMA DATABASE ANDA
