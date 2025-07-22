@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b6b; /* Merah muda cerah */
+            --secondary-color: #4ecdc4; /* Toska */
+            --tertiary-color: #ffe66d; /* Kuning cerah */
+            --text-dark: #333;
+            --text-light: #f4f4f4;
+            --bg-light: #fdfdfd;
+            --bg-dark: #2c3e50;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background-color: var(--bg-light);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            margin: 20px;
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInScale 1s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        header h1 {
+            font-family: 'Pacifico', cursive;
+            color: var(--primary-color);
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: bounceIn 1.5s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0%, 20%, 40%, 60%, 80%, 100% {
+                transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            }
+            0% {
+                opacity: 0;
+                transform: scale3d(0.3, 0.3, 0.3);
+            }
+            20% {
+                transform: scale3d(1.1, 1.1, 1.1);
+            }
+            40% {
+                transform: scale3d(0.9, 0.9, 0.9);
+            }
+            60% {
+                opacity: 1;
+                transform: scale3d(1.03, 1.03, 1.03);
+            }
+            80% {
+                transform: scale3d(0.97, 0.97, 0.97);
+            }
+            100% {
+                opacity: 1;
+                transform: scale3d(1, 1, 1);
+            }
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            animation: slideInUp 1s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .message-form {
+            background-color: var(--bg-light);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.7s forwards;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-dark);
+            text-align: left;
+        }
+
+        .message-form input[type="text"],
+        .message-form textarea {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .message-form input[type="text"]:focus,
+        .message-form textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px rgba(255, 107, 107, 0.3);
+            outline: none;
+        }
+
+        .message-form textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .message-form input[type="file"] {
+            width: 100%;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            border: 1px dashed #ccc;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.95em;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .message-form input[type="file"]::file-selector-button {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: none;
+            background-color: var(--tertiary-color);
+            color: var(--text-dark);
+            cursor: pointer;
+            margin-right: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .message-form input[type="file"]::file-selector-button:hover {
+            background-color: #e6cb5c;
+        }
+
+        .message-form button {
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .message-form button:hover {
+            background-color: #3aa69e;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .messages-display {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .messages-display h2 {
+            color: var(--primary-color);
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--tertiary-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            animation: scaleIn 1s ease-out 1s forwards;
+            opacity: 0;
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .message-item {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slideInLeft 0.8s ease-out forwards;
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .message-item:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+        .message-item:nth-child(odd) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .message-item-content {
+            flex-grow: 1;
+        }
+
+        .message-item strong {
+            color: var(--secondary-color);
+            font-size: 1.1em;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .message-item p {
+            color: var(--text-dark);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .message-image-wrapper {
+            flex-shrink: 0;
+            width: 120px;
+            height: 120px;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid #eee;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .message-image-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .message-actions {
+            margin-top: 15px;
+            text-align: right;
+        }
+
+        .message-actions button {
+            background-color: #f44336;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .message-actions button.edit-btn {
+            background-color: #2196F3;
+        }
+
+        .message-actions button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-actions button.delete-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .message-actions button.edit-btn:hover {
+            background-color: #1976D2;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: var(--text-light);
+            font-size: 0.9em;
+            animation: fadeIn 2s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Confetti Animation */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--tertiary-color);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall 3s linear forwards;
+            opacity: 0;
+            z-index: 9999;
+        }
+
+        .confetti:nth-child(2n) { background-color: var(--primary-color); }
+        .confetti:nth-child(3n) { background-color: var(--secondary-color); }
+        .confetti:nth-child(4n) { background-color: #ff9f1c; }
+
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotateZ(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotateZ(720deg); opacity: 0; }
+        }
+
+        /* Message for empty state */
+        .empty-messages {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            .container {
+                padding: 25px;
+                width: 95%;
+            }
+
+            .message-form input[type="text"],
+            .message-form textarea,
+            .message-form button {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+
+            .message-form input[type="file"] {
+                font-size: 0.85em;
+            }
+
+            .messages-display h2 {
+                font-size: 1.5em;
+            }
+
+            .message-item {
+                padding: 15px;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .message-image-wrapper {
+                margin-bottom: 10px;
+            }
+
+            .message-actions button {
+                padding: 6px 10px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎉 Happy Birthday, Captain of Our Home ! 🎉</h1>
+            <p>Bukan tentang hari ulang tahun ataupun tentang umur, yang saat ini disampaikan hanya sebuah kalimat ucapan dari seorang istri dan dua anak. Terima kasih sudah jadi sosok yang kuat, tenang, dan selalu ada. Semoga sehat selalu dan terus jadi pelindung terbaik kami.</p>
+        </header>
+
+        <section class="message-form">
+            <h2>Kirim Ucapanmu di Sini!</h2>
+            <form id="birthdayMessageForm">
+                <label for="senderName">Nama Pengirim:</label>
+                <input type="text" id="senderName" placeholder="Contoh: Putri, Ibu, Kakak" required>
+
+                <label for="messageText">Ucapan:</label>
+                <textarea id="messageText" placeholder="Tulis ucapan ulang tahunmu untuk Ayah di sini..." required></textarea>
+
+                <label for="messageImage">Gambar (Opsional):</label>
+                <input type="file" id="messageImage" accept="image/*">
+
+                <button type="submit" id="submitButton">Kirim Ucapan</button>
+            </form>
+        </section>
+
+        <section class="messages-display">
+            <h2>Ucapan Dari Kami:</h2>
+            <div id="messagesContainer">
+                </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Keluarga Tercinta. Dibuat dengan ❤</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('birthdayMessageForm');
+            const senderNameInput = document.getElementById('senderName');
+            const messageTextInput = document.getElementById('messageText');
+            const messageImageInput = document.getElementById('messageImage');
+            const submitButton = document.getElementById('submitButton');
+            const messagesContainer = document.getElementById('messagesContainer');
+
+            // Array untuk menyimpan ucapan, dimulai kosong
+            let messages = [];
+            let editingMessageId = null;
+
+            // Fungsi untuk menambahkan confetti (tetap sama)
+            function createConfetti() {
+                const confettiCount = 50;
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                    confetti.style.animationDelay = Math.random() * 1.5 + 's';
+                    document.body.appendChild(confetti);
+                    confetti.addEventListener('animationend', () => {
+                        confetti.remove();
+                    });
+                }
+            }
+
+            createConfetti();
+            setInterval(createConfetti, 5000);
+
+            // Fungsi untuk menampilkan ucapan yang ada
+            function displayMessages() {
+                messagesContainer.innerHTML = ''; // Kosongkan container sebelum menambahkan
+
+                if (messages.length === 0) {
+                    // Jika tidak ada ucapan, tampilkan pesan kosong
+                    const emptyMessageDiv = document.createElement('div');
+                    emptyMessageDiv.classList.add('empty-messages');
+                    emptyMessageDiv.textContent = 'Belum ada ucapan. Jadilah yang pertama memberikan ucapan untuk Ayah!';
+                    messagesContainer.appendChild(emptyMessageDiv);
+                    return; // Hentikan fungsi karena tidak ada ucapan untuk ditampilkan
+                }
+
+                messages.forEach((msg, index) => {
+                    const messageItem = document.createElement('div');
+                    messageItem.classList.add('message-item');
+                    messageItem.setAttribute('data-id', msg.id);
+
+                    let imageHtml = '';
+                    if (msg.imageUrl) {
+                        imageHtml = `
+                            <div class="message-image-wrapper">
+                                <img src="${msg.imageUrl}" alt="Gambar Ucapan">
+                            </div>
+                        `;
+                    }
+
+                    messageItem.innerHTML = `
+                        ${imageHtml}
+                        <div class="message-item-content">
+                            <strong>Dari: ${msg.sender}</strong>
+                            <p>${msg.text}</p>
+                            <div class="message-actions">
+                                <button class="edit-btn" data-id="${msg.id}">Edit</button>
+                                <button class="delete-btn" data-id="${msg.id}">Hapus</button>
+                            </div>
+                        </div>
+                    `;
+                    messagesContainer.appendChild(messageItem);
+                    setTimeout(() => {
+                        messageItem.style.opacity = '1';
+                        messageItem.style.transform = 'translateY(0)';
+                    }, 50 * index);
+                });
+                addMessageActionListeners();
+            }
+
+            function addMessageActionListeners() {
+                document.querySelectorAll('.edit-btn').forEach(button => {
+                    button.onclick = (event) => editMessage(event.target.dataset.id);
+                });
+                document.querySelectorAll('.delete-btn').forEach(button => {
+                    button.onclick = (event) => deleteMessage(event.target.dataset.id);
+                });
+            }
+
+            function editMessage(id) {
+                const messageToEdit = messages.find(msg => msg.id == id);
+                if (messageToEdit) {
+                    senderNameInput.value = messageToEdit.sender;
+                    messageTextInput.value = messageToEdit.text;
+                    messageImageInput.value = ''; // Kosongkan input file
+                    submitButton.textContent = 'Perbarui Ucapan';
+                    editingMessageId = id;
+                }
+            }
+
+            function deleteMessage(id) {
+                if (confirm('Apakah Anda yakin ingin menghapus ucapan ini?')) {
+                    messages = messages.filter(msg => msg.id != id);
+                    displayMessages(); // Perbarui tampilan setelah penghapusan
+                }
+            }
+
+            // Panggil displayMessages() tanpa ucapan default
+            displayMessages();
+
+            // Menangani pengiriman form (untuk tambah atau edit)
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const senderName = senderNameInput.value;
+                const messageText = messageTextInput.value;
+                const imageFile = messageImageInput.files[0];
+
+                if (senderName && messageText) {
+                    let newImageUrl = null;
+
+                    const processMessage = (url) => {
+                        if (editingMessageId) {
+                            const index = messages.findIndex(msg => msg.id == editingMessageId);
+                            if (index !== -1) {
+                                messages[index].sender = senderName;
+                                messages[index].text = messageText;
+                                if (imageFile) { // Hanya update gambar jika ada file baru
+                                    messages[index].imageUrl = url;
+                                }
+                            }
+                            editingMessageId = null;
+                            submitButton.textContent = 'Kirim Ucapan';
+                        } else {
+                            messages.unshift({ 
+                                id: Date.now(), 
+                                sender: senderName, 
+                                text: messageText, 
+                                imageUrl: url 
+                            });
+                        }
+                        
+                        displayMessages();
+                        form.reset();
+                        createConfetti();
+                    };
+
+                    if (imageFile) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            newImageUrl = e.target.result;
+                            processMessage(newImageUrl);
+                        };
+                        reader.readAsDataURL(imageFile);
+                    } else {
+                        // Jika tidak ada gambar baru, gunakan gambar yang sudah ada (jika edit) atau null (jika tambah baru)
+                        let existingImageUrl = null;
+                        if (editingMessageId) {
+                            const messageToEdit = messages.find(msg => msg.id == editingMessageId);
+                            if (messageToEdit) {
+                                existingImageUrl = messageToEdit.imageUrl;
+                            }
+                        }
+                        processMessage(existingImageUrl);
+                    }
+                } else {
+                    alert('Mohon lengkapi nama pengirim dan ucapan!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
