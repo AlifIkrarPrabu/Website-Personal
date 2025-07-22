@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galeri Visual - Selamat Ulang Tahun Ayah</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #ff6b6b; /* Merah muda cerah */
+            --secondary-color: #4ecdc4; /* Toska */
+            --tertiary-color: #ffe66d; /* Kuning cerah */
+            --text-dark: #333;
+            --text-light: #f4f4f4;
+            --bg-light: #fdfdfd;
+            --bg-dark: #2c3e50;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            overflow-x: hidden;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            background-color: var(--bg-light);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            margin: 20px;
+            max-width: 960px; /* Lebar container lebih besar untuk galeri */
+            width: 90%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInScale 1s ease-out;
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        header h1 {
+            font-family: 'Pacifico', cursive;
+            color: var(--primary-color);
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            animation: bounceIn 1.5s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0%, 20%, 40%, 60%, 80%, 100% { transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000); }
+            0% { opacity: 0; transform: scale3d(0.3, 0.3, 0.3); }
+            20% { transform: scale3d(1.1, 1.1, 1.1); }
+            40% { transform: scale3d(0.9, 0.9, 0.9); }
+            60% { opacity: 1; transform: scale3d(1.03, 1.03, 1.03); }
+            80% { transform: scale3d(0.97, 0.97, 0.97); }
+            100% { opacity: 1; transform: scale3d(1, 1, 1); }
+        }
+
+        header p {
+            font-size: 1.1em;
+            color: var(--text-dark);
+            margin-bottom: 30px;
+            animation: slideInUp 1s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        @keyframes slideInUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Navigation Bar */
+        nav {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Untuk responsif di layar kecil */
+            gap: 15px;
+            animation: fadeIn 1s ease-out 0.8s forwards;
+            opacity: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            background-color: var(--tertiary-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: var(--card-shadow);
+        }
+
+        nav a:hover {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            transform: translateY(-3px);
+        }
+
+        /* Gallery Specific Styles */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsif grid */
+            gap: 25px;
+            margin-top: 30px;
+            padding: 10px;
+            animation: staggeredFadeIn 1.5s ease-out forwards;
+        }
+
+        @keyframes staggeredFadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .gallery-item {
+            background-color: #fff;
+            border-radius: 12px;
+            overflow: hidden; /* Penting untuk gambar */
+            box-shadow: var(--card-shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            opacity: 0; /* Untuk animasi individual */
+            transform: translateY(20px); /* Untuk animasi individual */
+            animation: itemFadeIn 0.6s ease-out forwards; /* Animasi setiap item */
+        }
+        
+        /* Animasi setiap item dengan delay */
+        .gallery-item:nth-child(1) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.6s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.7s; }
+        /* Tambahkan lebih banyak delay jika ada lebih banyak item */
+
+        @keyframes itemFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+        .gallery-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 200px; /* Tinggi gambar yang konsisten */
+            object-fit: cover; /* Memastikan gambar mengisi area tanpa terdistorsi */
+            display: block; /* Menghilangkan spasi bawah default img */
+            border-bottom: 1px solid #eee;
+        }
+
+        .gallery-caption {
+            padding: 18px;
+            text-align: left;
+            flex-grow: 1; /* Agar caption mengisi sisa ruang */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Untuk mendorong elemen ke bawah jika perlu */
+        }
+
+        .gallery-caption h3 {
+            color: var(--secondary-color);
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.3em;
+            line-height: 1.4;
+        }
+
+        .gallery-caption p {
+            color: var(--text-dark);
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: var(--text-light);
+            font-size: 0.9em;
+            animation: fadeIn 2s ease-out;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Confetti (optional, copy from index.html if you want it here too) */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--tertiary-color);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: fall 3s linear forwards;
+            opacity: 0;
+            z-index: 9999;
+        }
+        .confetti:nth-child(2n) { background-color: var(--primary-color); }
+        .confetti:nth-child(3n) { background-color: var(--secondary-color); }
+        .confetti:nth-child(4n) { background-color: #ff9f1c; }
+        @keyframes fall {
+            0% { transform: translateY(-100px) rotateZ(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotateZ(720deg); opacity: 0; }
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            header h1 {
+                font-size: 2.5em;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr; /* Satu kolom di layar kecil */
+            }
+            .gallery-item img {
+                height: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+            header h1 {
+                font-size: 2em;
+            }
+            nav a {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            .gallery-caption h3 {
+                font-size: 1.1em;
+            }
+            .gallery-caption p {
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💡 Galeri Visual: Inspirasi dan Kebijaksanaan 💡</h1>
+            <p>Kumpulan gambar yang merefleksikan nilai-nilai dan semangat yang bapak tunjukkan. Setiap visual adalah cerminan dari prinsip hidup yang inspiratif.</p>
+        </header>
+
+        <nav>
+            <a href="index.html">Beranda</a>
+            <a href="gallery.html">Galeri Visual</a>
+        </nav>
+
+        <section class="gallery-grid">
+            </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Keluarga Tercinta. Dibuat dengan ❤</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const galleryGrid = document.querySelector('.gallery-grid');
+
+            // --- DATA GALERI STATIS ---
+            // Sesuaikan path gambar dan caption sesuai keinginan Anda
+            const galleryItems = [
+                {
+                    id: 1,
+                    image_url: "./img/mountain.jpg", // Ganti dengan path gambar Anda
+                    title: "Puncak Pencapaian",
+                    caption: "Melambangkan semangat yang tak pernah lelah meraih tujuan dan selalu melihat ke depan."
+                },
+                {
+                    id: 2,
+                    image_url: "./img/jejak.jpg", // Ganti dengan path gambar Anda
+                    title: "Jejak Langkah Bijak",
+                    caption: "Setiap langkah yang Bapak ambil adalah tuntunan, menciptakan jalan yang kokoh untuk kami ikuti."
+                },
+                {
+                    id: 3,
+                    image_url: "./img/penuntun.jpg", // Ganti dengan path gambar Anda
+                    title: "Mercusuar Penuntun",
+                    caption: "Bapak adalah cahaya di tengah badai, membimbing kami menuju pelabuhan yang aman dengan kebijaksanaan."
+                },
+                {
+                    id: 4,
+                    image_url: "./img/presisi.jpg", // Ganti dengan path gambar Anda
+                    title: "Mekanisme Presisi",
+                    caption: "Mencerminkan pemikiran Bapak yang logis dan terstruktur, selalu menemukan solusi efektif."
+                },
+                {
+                    id: 5,
+                    image_url: "./img/tree.jpg", // Ganti dengan path gambar Anda
+                    title: "Akar Kekuatan",
+                    caption: "Seperti pohon yang kokoh, Bapak adalah fondasi yang tak tergoyahkan, memberikan kekuatan dan dukungan."
+                },
+                {
+                    id: 6,
+                    image_url: "./img/compass.jpg", // Ganti dengan path gambar Anda
+                    title: "Kompas Hidup",
+                    caption: "Bapak adalah penunjuk arah, membantu kami menemukan jalur yang benar dalam setiap perjalanan."
+                }
+                // Tambahkan lebih banyak item galeri di sini
+            ];
+
+            function displayGalleryItems(items) {
+                galleryGrid.innerHTML = ''; // Kosongkan container
+                items.forEach(item => {
+                    const galleryItemDiv = document.createElement('div');
+                    galleryItemDiv.classList.add('gallery-item');
+                    galleryItemDiv.innerHTML = `
+                        <img src="${item.image_url}" alt="${item.title}">
+                        <div class="gallery-caption">
+                            <h3>${item.title}</h3>
+                            <p>${item.caption}</p>
+                        </div>
+                    `;
+                    galleryGrid.appendChild(galleryItemDiv);
+                });
+            }
+
+            // Panggil fungsi untuk menampilkan item galeri saat halaman dimuat
+            displayGalleryItems(galleryItems);
+
+            // Confetti animation (optional, you can remove if not needed on this page)
+            function createConfetti() {
+                const confettiCount = 30; // Kurangi jumlah confetti agar tidak terlalu ramai
+                for (let i = 0; i < confettiCount; i++) {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                    confetti.style.animationDelay = Math.random() * 1.5 + 's';
+                    document.body.appendChild(confetti);
+                    confetti.addEventListener('animationend', () => {
+                        confetti.remove();
+                    });
+                }
+            }
+            createConfetti();
+            setInterval(createConfetti, 5000); // Ulangi setiap 5 detik
+        });
+    </script>
+</body>
+</html>
