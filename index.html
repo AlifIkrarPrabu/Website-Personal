@@ -245,6 +245,52 @@
             <p>Bukan tentang hari ulang tahun ataupun tentang umur, yang saat ini disampaikan hanya sebuah kalimat ucapan dari seorang istri dan dua anak. Terima kasih sudah jadi sosok yang kuat, tenang, dan selalu ada. Semoga sehat selalu dan terus jadi pelindung terbaik kami.</p>
         </header>
 
+        <audio id="myAudio" loop>
+    <source src="./audio/ultah.mp3" type="audio/mpeg">
+    Browser Anda tidak mendukung elemen audio.
+</audio>
+
+<button id="playMusicBtn" style="
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+">Putar Musik</button>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const myAudio = document.getElementById('myAudio');
+        const playMusicBtn = document.getElementById('playMusicBtn');
+
+        // Opsional: atur volume awal
+        myAudio.volume = 0.5; // Atur volume ke 50%
+
+        playMusicBtn.addEventListener('click', () => {
+            if (myAudio.paused) {
+                myAudio.play()
+                    .then(() => {
+                        playMusicBtn.textContent = 'Jeda Musik';
+                        playMusicBtn.style.backgroundColor = '#f44336'; // Warna merah untuk jeda
+                    })
+                    .catch(error => {
+                        console.error("Gagal memutar audio:", error);
+                        alert("Gagal memutar musik. Pastikan file audio tersedia dan browser mengizinkannya.");
+                    });
+            } else {
+                myAudio.pause();
+                playMusicBtn.textContent = 'Putar Musik';
+                playMusicBtn.style.backgroundColor = 'var(--secondary-color)'; // Kembali ke warna awal
+            }
+        });
+    });
+</script>
+
         <section class="messages-display">
             <h2>Ucapan Dari Kami:</h2>
             <div id="messagesContainer">
