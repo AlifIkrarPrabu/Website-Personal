@@ -106,6 +106,34 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        /* Navigation Bar */
+        nav {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap; /* Untuk responsif di layar kecil */
+            gap: 15px;
+            animation: fadeIn 1s ease-out 0.8s forwards;
+            opacity: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-dark);
+            background-color: var(--tertiary-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 700;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a:hover {
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            transform: translateY(-3px);
+        }
+
         .messages-display {
             margin-top: 40px;
             text-align: left;
@@ -191,6 +219,38 @@
             border-radius: 8px;
         }
 
+        /* Styling for the new navigation button */
+        .cta-button-container {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: var(--secondary-color);
+            color: var(--text-light);
+            padding: 15px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: popIn 0.8s ease-out 2s forwards; /* Animasi muncul setelah ucapan */
+            opacity: 0;
+        }
+
+        .cta-button:hover {
+            background-color: #3aa69e; /* Warna sedikit lebih gelap saat hover */
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(0.7); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+
         footer {
             margin-top: 30px;
             color: var(--text-light);
@@ -245,57 +305,66 @@
             <p>Bukan tentang hari ulang tahun ataupun tentang umur, yang saat ini disampaikan hanya sebuah kalimat ucapan dari seorang istri dan dua anak. Terima kasih sudah jadi sosok yang kuat, tenang, dan selalu ada. Semoga sehat selalu dan terus jadi pelindung terbaik kami.</p>
         </header>
 
+        <nav>
+            <a href="index.html">Beranda</a>
+            <a href="gallery.html">Galeri Visual</a>
+        </nav>
+
         <audio id="myAudio" loop>
-    <source src="./audio/ultah.mp3" type="audio/mpeg">
-    Browser Anda tidak mendukung elemen audio.
-</audio>
+            <source src="./audio/ultah.mp3" type="audio/mpeg">
+            Browser Anda tidak mendukung elemen audio.
+        </audio>
 
-<button id="playMusicBtn" style="
-    background-color: var(--secondary-color);
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 1em;
-    font-weight: bold;
-    margin-top: 20px;
-    transition: background-color 0.3s ease;
-">Putar Musik</button>
+        <button id="playMusicBtn" style="
+            background-color: var(--secondary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        ">Putar Musik</button>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const myAudio = document.getElementById('myAudio');
-        const playMusicBtn = document.getElementById('playMusicBtn');
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const myAudio = document.getElementById('myAudio');
+                const playMusicBtn = document.getElementById('playMusicBtn');
 
-        // Opsional: atur volume awal
-        myAudio.volume = 0.5; // Atur volume ke 50%
+                // Opsional: atur volume awal
+                myAudio.volume = 0.5; // Atur volume ke 50%
 
-        playMusicBtn.addEventListener('click', () => {
-            if (myAudio.paused) {
-                myAudio.play()
-                    .then(() => {
-                        playMusicBtn.textContent = 'Jeda Musik';
-                        playMusicBtn.style.backgroundColor = '#f44336'; // Warna merah untuk jeda
-                    })
-                    .catch(error => {
-                        console.error("Gagal memutar audio:", error);
-                        alert("Gagal memutar musik. Pastikan file audio tersedia dan browser mengizinkannya.");
-                    });
-            } else {
-                myAudio.pause();
-                playMusicBtn.textContent = 'Putar Musik';
-                playMusicBtn.style.backgroundColor = 'var(--secondary-color)'; // Kembali ke warna awal
-            }
-        });
-    });
-</script>
+                playMusicBtn.addEventListener('click', () => {
+                    if (myAudio.paused) {
+                        myAudio.play()
+                            .then(() => {
+                                playMusicBtn.textContent = 'Jeda Musik';
+                                playMusicBtn.style.backgroundColor = '#f44336'; // Warna merah untuk jeda
+                            })
+                            .catch(error => {
+                                console.error("Gagal memutar audio:", error);
+                                alert("Gagal memutar musik. Pastikan file audio tersedia dan browser mengizinkannya.");
+                            });
+                    } else {
+                        myAudio.pause();
+                        playMusicBtn.textContent = 'Putar Musik';
+                        playMusicBtn.style.backgroundColor = 'var(--secondary-color)'; // Kembali ke warna awal
+                    }
+                });
+            });
+        </script>
 
         <section class="messages-display">
             <h2>Ucapan Dari Kami:</h2>
             <div id="messagesContainer">
-                </div>
+            </div>
         </section>
+
+        <div class="cta-button-container">
+            <a href="gallery.html" class="cta-button">Lihat Galeri Visual Inspiratif</a>
+        </div>
     </div>
 
     <footer>
@@ -307,28 +376,25 @@
             const messagesContainer = document.getElementById('messagesContainer');
 
             // --- DATA UCAPAN STATIS ---
-            // Anda bisa menambah, mengedit, atau menghapus ucapan di array ini.
-            // Tidak ada fitur input, edit, atau hapus di frontend lagi.
             const staticMessages = [
                 {
                     id: 1,
                     sender: "Ibu (Istri Tercintah)",
                     message_text: "Selamat ulang tahun untuk laki-laki yang selalu jadi rumah paling tenang. Terima kasih sudah jadi teman hidup, sahabat terbaik, dan sosok yang tak pernah lelah menjaga keluarga. Semoga selalu diberi kesehatan, rezeki yang baik, dan hati yang lapang. Kami selalu ada dan bangga padamu.",
-                    image_url: "./img/ibu.jpg" // Ganti dengan URL gambar asli Anda
+                    image_url: "./img/ibu.jpg"
                 },
                 {
                     id: 2,
                     sender: "Kakak",
-                    message_text: "Bukan soal angka atau perayaan, tapi tentang rasa terima kasih yang tak pernah cukup diucapkan. Terima kasih sudah jadi panutan dalam diam, pelindung tanpa lelah. Semoga Ayah selalu diberi kesehatan, ketenangan, dan kebahagiaan yang bapak pantas dapatkan. Selamat ulang tahun!",
-                    image_url: "./img/kakak.jpg" // Ganti dengan URL gambar asli Anda
+                    message_text: "Bukan soal angka atau perayaan, tapi tentang rasa terima kasih yang tak pernah cukup diucapkan. Terima kasih sudah jadi panutan dalam diam, pelindung tanpa lelah. Semoga selalu diberi kesehatan, ketenangan, dan kebahagiaan yang bapak pantas dapatkan. Selamat ulang tahun!",
+                    image_url: "./img/kakak.jpg"
                 },
                 {
                     id: 3,
                     sender: "Prabu",
                     message_text: "Hari ini bukan cuma tentang ulang tahun, tapi tentang sosok luar biasa yang jadi panutan hidup. Dari setiap langkah, belajar arti tanggung jawab, dari diamnya nasihat, paham arti kekuatan. Bukan cuma pahlawan keluarga, tapi fondasi yang buat jadi seperti sekarang. Semoga sehat selalu, tetap kuat, dan terus jadi cahaya buat keluarga ini. Dari anak laki-laki, yang selalu bangga jadi bagian darimu.",
-                    image_url: "./img/prabu.jpg" // Biarkan kosong jika tidak ada gambar
+                    image_url: "./img/prabu.jpg"
                 }
-                // Tambahkan lebih banyak ucapan di sini jika diperlukan
             ];
 
             // Fungsi untuk menambahkan confetti
@@ -365,7 +431,7 @@
                 messages.forEach((msg, index) => {
                     const messageItem = document.createElement('div');
                     messageItem.classList.add('message-item');
-                    messageItem.setAttribute('data-id', msg.id); // ID opsional untuk referensi
+                    messageItem.setAttribute('data-id', msg.id);
 
                     let imageHtml = '';
                     if (msg.image_url) {
